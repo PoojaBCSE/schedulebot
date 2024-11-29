@@ -1,0 +1,35 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://acuityscheduling.com/api/v1/availability/times",
+    "querystring": {
+      "date": "2024-12-01",
+      "appointmentTypeID": "12345"
+    },
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": "",
+    "data": null
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "connection": "close",
+      "content-encoding": "gzip",
+      "content-length": "116",
+      "content-type": "application/json",
+      "date": "Wed, 27 Nov 2024 14:17:46 GMT",
+      "server": "Apache",
+      "strict-transport-security": "max-age=63072000; preload",
+      "vary": "Accept-Encoding,User-Agent",
+      "x-content-type-options": "nosniff"
+    },
+    "body": "{\"status_code\":400,\"message\":\"The appointment type \\\"12345\\\" does not exist.\",\"error\":\"invalid_appointment_type\"}",
+    "data": {
+      "status_code": 400,
+      "message": "The appointment type \"12345\" does not exist.",
+      "error": "invalid_appointment_type"
+    }
+  }
+}
