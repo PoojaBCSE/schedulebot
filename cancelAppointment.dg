@@ -1,0 +1,13 @@
+// Example Zoho SalesIQ Plug Code
+appointmentId = "1374083988";
+// Replace with dynamic ID from context
+url = "https://hooks.zapier.com/hooks/catch/20828111/2id277p/";
+data = {"appointmentId":appointmentId};
+response = invokeurl
+[
+	url :url
+	type :PUT
+	parameters:data
+];
+info response;
+return response;
