@@ -1,0 +1,84 @@
+zapierWebhookUrl = "https://hooks.zapier.com/hooks/catch/20828111/2idh6sw/";
+// Zapier webhook URL
+// Fetch the visitor's selected date and appointmentTypeID
+appointmentTypeID = "71236966";
+selected = session.get("selectedDate").get("value");
+// Example input from the user
+// Step 1: Get the current date in "yyyy-MM" format
+currentDate = zoho.currentdate.toString("yyyy-MM");
+// Step 2: Convert selected date and current date to DATE objects for comparison
+selectedDate = selected.toDate("yyyy-MM");
+currentDateFormatted = currentDate.toDate("yyyy-MM");
+// Step 3: Perform the date comparison (ensure the selected date is in the future)
+if(selectedDate <= currentDateFormatted)
+{
+	responseMap = Map();
+	responseMap.put("message","Please select a future date for the appointment.");
+	return responseMap;
+}
+// Step 4: Prepare the data to send to Zapier Webhook
+payload = Map();
+payload.put("date",selected.toString("yyyy-MM"));
+payload.put("appointmentTypeID",appointmentTypeID);
+info "Payload: " + payload.toString();
+// Debugging log for the payload
+// Step 5: Send the data to Zapier Webhook and capture the response
+response = postUrl(zapierWebhookUrl,payload);
+info "Response: " + response;
+// Debugging log for the response
+// Step 6: Check if Zapier response is successful
+if(response == null || response.trim() == "")
+{
+	responseMap = Map();
+	responseMap.put("message","Error: Failed to connect to Zapier Webhook. Please try again later.");
+	return responseMap;
+}
+// Step 7: Parse Zapier response (handling the specific format returned)
+responseList = response.toList();
+// Convert response to a list of objects
+info "Response List: " + responseList;
+// Debugging log for the response list
+// Initialize the available dates list
+availableDates = List();
+// Step 8: Process the response list and extract dates
+for each  item in responseList
+{
+	// Ensure the item is a map and the date key exists
+	if(item.containsKey("date"))
+	{
+		date = item.get("date");
+		// Extract the 'date' field
+		if(date != null)
+		{
+			availableDates.add(date.toString());
+			// Add to availableDates list
+		}
+	}
+	else
+	{
+		info "No 'date' field in item: " + item;
+		// Log missing date field
+	}
+}
+// Step 9: Return available dates in a single-choice card
+if(availableDates.size() > 0)
+{
+	responseMap = Map();
+	responseMap.put("action","reply");
+	responseMap.put("replies",availableDates);
+	responseMap.put("type","single-select");
+	// Send available dates in single-choice card format
+	info responseMap;
+	return responseMap;
+}
+else
+{
+	responseMap = Map();
+	responseMap.put("message","No available dates found.");
+	info responseMap;
+	return responseMap;
+}
+// If the response format is unexpected, return an error message
+responseMap = Map();
+responseMap.put("message","Error: Unexpected response format from Zapier.");
+return responseMap;
