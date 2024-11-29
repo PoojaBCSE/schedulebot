@@ -1,0 +1,22 @@
+// Example Zoho SalesIQ Plug Code
+// Assuming appointmentId and new datetime comes dynamically from context (session, visitor field, etc.)
+appointmentId = "1374083988";
+// Replace this with dynamic data from context
+newDateTime = "2024-11-29T04:20:00Z";
+// Replace with the new datetime from context or user input
+// Zapier Webhook URL (replace with your actual Zapier webhook URL)
+url = "https://hooks.zapier.com/hooks/catch/20828111/2imnxyz/";
+// The Zapier URL you copied
+// Data to be sent to Zapier with the appointmentId and new datetime
+data = {"appointmentId":appointmentId,"datetime":newDateTime};
+// Send the data to the Zapier Webhook (ensure correct parameters for PUT request)
+response = invokeurl
+[
+	url :url
+	type :PUT
+	parameters:data
+];
+// Log the response for debugging
+info response;
+// Return the response (if needed for further processing in SalesIQ)
+return response;
