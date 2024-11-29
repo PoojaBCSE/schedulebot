@@ -1,0 +1,14 @@
+// Define the Zapier Webhook URL
+url = "https://hooks.zapier.com/hooks/catch/20828111/2ihrbhc/";
+appointmentData = {"datetime":"2024-11-29T04:20:00Z","appointmentTypeID":71236966,"firstName":"pooja","lastName":"b","email":"pooja@gmail.com"};
+// Send the POST request to the Zapier webhook
+response = invokeurl
+[
+	url :url
+	type :POST
+	parameters:appointmentData
+];
+// Log the response for debugging
+info response;
+// Return the response to the bot
+return response;
