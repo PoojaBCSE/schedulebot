@@ -1,0 +1,38 @@
+zapierWebhookUrl = "https://hooks.zapier.com/hooks/catch/20828111/2ih5rl9/";
+// Fetch the visitor's selected date and appointmentTypeID
+appointmentTypeID = "71236966";
+selected = session.get("selectedDate").get("value");
+// Step 1: Get the current date in "yyyy-MM-dd" format
+currentDate = zoho.currentdate.toString("yyyy-MM-dd");
+// Step 2: Convert selected date and current date to DATE objects for comparison
+selectedDate = selected.toDate("yyyy-MM-dd");
+currentDateFormatted = currentDate.toDate("yyyy-MM-dd");
+// Step 3: Perform the date comparison
+if(selectedDate <= currentDateFormatted)
+{
+	return "Please select a future date for the appointment.";
+}
+// Step 4: Prepare data to send to Zapier Webhook
+payload = Map();
+payload.put("date",selectedDate.toString("yyyy-MM-dd"));
+payload.put("appointmentTypeID",appointmentTypeID);
+info "Payload: " + payload.toString();
+// Debug payload
+// Step 5: Send the data to Zapier Webhook
+response = postUrl(zapierWebhookUrl,payload);
+info "Response: " + response;
+// Debug response
+// Step 6: Check if Zapier response is successful
+if(response == null || response.trim() == "")
+{
+	return "Error: Failed to connect to Zapier Webhook. Please try again later.";
+}
+// Step 7: Parse Zapier response (assuming Zapier returns JSON)
+responseMap = response.toMap();
+if(responseMap != null)
+{
+	return responseMap.toString();
+	// Return parsed response
+}
+return response;
+// Fallback to raw response
