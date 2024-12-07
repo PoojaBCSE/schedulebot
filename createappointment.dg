@@ -1,6 +1,12 @@
 // Define the Zapier Webhook URL
-url = "https://hooks.zapier.com/hooks/catch/20828111/2ihrbhc/";
-appointmentData = {"datetime":"2024-11-29T04:20:00Z","appointmentTypeID":71236966,"firstName":"pooja","lastName":"b","email":"pooja@gmail.com"};
+url = "https://hooks.zapier.com/hooks/catch/20928048/2ip0t62/";
+firstname = session.get("firstName").get("value");
+lastname = session.get("lastName").get("value");
+info session.get("datetime").get("value");
+datetime = session.get("datetime").get("value").get("date_time");
+// Given input datetime in local time (adjust as per your context)
+email = session.get("email").get("value");
+appointmentData = {"datetime":datetime,"appointmentTypeID":71638725,"firstName":firstname,"lastName":lastname,"email":email};
 // Send the POST request to the Zapier webhook
 response = invokeurl
 [
